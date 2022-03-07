@@ -100,7 +100,7 @@
               class="col-md-8 col-md-offset-2 text-center fh5co-heading animate-box"
             >
               <h2>Hello!</h2>
-              <h3>April 22nd, 2022 Bihar, India</h3>
+              <h3>April 22nd, 2022 (Bihar, India)</h3>
               <p>We invited you to celebrate our wedding</p>
             </div>
           </div>
@@ -244,7 +244,7 @@
           </div>
           <div class="row animate-box">
             <div class="col-md-10 col-md-offset-1">
-              <form class="form-inline">
+              <form class="form-inline" method="POST" id="formsubmit">
                 <div class="col-md-4 col-sm-4">
                   <div class="form-group">
                     <label for="name" class="sr-only">Name</label>
@@ -253,6 +253,8 @@
                       class="form-control"
                       id="name"
                       placeholder="Name"
+                      name="Name"
+                      required
                     />
                   </div>
                 </div>
@@ -264,14 +266,21 @@
                       class="form-control"
                       id="email"
                       placeholder="Email"
+                      name="Email"
+                      required
                     />
                   </div>
                 </div>
                 <div class="col-md-4 col-sm-4">
-                  <button type="submit" class="btn btn-default btn-block">
+                  <button
+                    type="submit"
+                    id="btnsubmit"
+                    class="btn btn-default btn-block"
+                  >
                     I am Attending
                   </button>
                 </div>
+                <div align="center" id="msg"></div>
               </form>
             </div>
           </div>
@@ -340,6 +349,25 @@
         month: d.getMonth() + 1,
         day: d.getDate(),
         enableUtc: false,
+      });
+
+      jQuery("#formsubmit").on("submit", function (e) {
+        e.preventDefault();
+        jQuery("#msg").html("Please wait...");
+        jQuery("#btnsubmit").attr("disabled", true);
+        //  alert("submitted");
+        jQuery.ajax({
+          url: "https://script.google.com/macros/s/AKfycbzUApOu6XlR8TNh7yK1ALgvTfF944JreimslraLkexF0cQKjC77TonJKTqaefGY7pN0Ew/exec",
+          type: "post",
+          data: jQuery("#formsubmit").serialize(),
+          success: function (result) {
+            jQuery("#formsubmit")[0].reset();
+            jQuery("#msg").html(
+              "Thank You for filling up form. We will notify you."
+            );
+            jQuery("#btnsubmit").attr("disabled", false);
+          },
+        });
       });
     </script>
   </body>
